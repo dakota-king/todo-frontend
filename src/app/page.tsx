@@ -138,7 +138,7 @@ export default function Home() {
               </svg>
             </div>
             <h2 className="text-white text-xl font-medium mb-3">
-              You don't have any tasks registered yet.
+              You don&apos;t have any tasks registered yet.
             </h2>
             <p className="text-gray-400 text-lg">
               Create tasks and organize your to-do items.

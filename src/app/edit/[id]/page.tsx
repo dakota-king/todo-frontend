@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Task } from '@/types/task';
 import { api } from '@/lib/api';
@@ -14,11 +14,7 @@ export default function EditTask() {
   const params = useParams();
   const taskId = parseInt(params.id as string);
 
-  useEffect(() => {
-    fetchTask();
-  }, [taskId]);
-
-  const fetchTask = async () => {
+  const fetchTask = useCallback(async () => {
     try {
       setIsLoadingTask(true);
       const tasks = await api.getTasks();
@@ -36,7 +32,11 @@ export default function EditTask() {
     } finally {
       setIsLoadingTask(false);
     }
-  };
+  }, [taskId, router]);
+
+  useEffect(() => {
+    fetchTask();
+  }, [taskId, fetchTask]);
 
   const handleSubmit = async (data: { title: string; color: string }) => {
     if (!task) return;
