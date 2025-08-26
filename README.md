@@ -19,50 +19,100 @@ A modern, responsive Todo List application built with Next.js, TypeScript, and T
 - **Tailwind CSS** - Utility-first CSS framework
 - **Lucide React** - Beautiful icons
 
-## Getting Started
+## Project Structure
 
-### Prerequisites
+This is a **Full-Stack Todo App** with two repositories:
+
+```
+📁 todo-frontend/          # This repository (Next.js frontend)
+📁 todo-backend/           # Express.js + Prisma + MySQL backend
+```
+
+## Prerequisites
 
 - Node.js 18+ 
 - npm or yarn
-- Running backend API (see backend README)
+- MySQL database
+- Git
 
-### Installation
+## Quick Start
 
-1. Clone the repository:
+### 1. Frontend Setup (This Repository)
+
 ```bash
-git clone <repository-url>
+# Clone the frontend repository
+git clone <frontend-repo-url>
 cd todo-frontend
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
-```
 
-3. Create environment file:
-```bash
+# Create environment file
 cp .env.local.example .env.local
-```
 
-4. Update the environment variables in `.env.local`:
-```env
+# Update environment variables
 NEXT_PUBLIC_API_URL=http://localhost:5000/api
-```
 
-5. Start the development server:
-```bash
+# Start development server
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 2. Backend Setup
+
+```bash
+# Clone the backend repository
+git clone <backend-repo-url>
+cd todo-backend
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+
+# Update .env with your database credentials
+DATABASE_URL="mysql://username:password@localhost:3306/todo_db"
+PORT=5000
+
+# Initialize database with Prisma
+npx prisma generate
+npx prisma db push
+
+# Start the backend server
+npm run dev
+```
+
+The backend will be available at `http://localhost:5000/api`
+
+### 3. Database Setup
+
+```bash
+# Create MySQL database
+mysql -u root -p
+CREATE DATABASE todo_db;
+USE todo_db;
+EXIT;
+
+# Run Prisma migrations
+cd todo-backend
+npx prisma migrate dev --name init
+```
 
 ## Available Scripts
 
+### Frontend
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
+
+### Backend
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run db:push` - Push database schema changes
 
 ## Project Structure
 
@@ -100,12 +150,59 @@ Tasks can be assigned one of the following colors:
 - Purple
 - Pink
 
-## Responsive Design
+## Database Schema
 
-The application is fully responsive and works seamlessly on:
-- Desktop computers
-- Tablets
-- Mobile phones
+The backend uses Prisma with MySQL. Tasks include:
+- `id` - Unique identifier
+- `title` - Task description
+- `color` - Task color
+- `completed` - Completion status
+- `createdAt` - Creation timestamp
+- `updatedAt` - Last update timestamp
+
+## Development
+
+### Running Both Services
+
+1. **Terminal 1** - Backend:
+   ```bash
+   cd todo-backend
+   npm run dev
+   ```
+
+2. **Terminal 2** - Frontend:
+   ```bash
+   cd todo-frontend
+   npm run dev
+   ```
+
+### Environment Variables
+
+#### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+#### Backend (.env)
+```env
+DATABASE_URL="mysql://username:password@localhost:3306/todo_db"
+PORT=5000
+NODE_ENV=development
+```
+
+## Deployment
+
+### Frontend
+```bash
+npm run build
+npm run start
+```
+
+### Backend
+```bash
+npm run build
+npm run start
+```
 
 ## Contributing
 
